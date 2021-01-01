@@ -11,7 +11,7 @@ export class CautionaryClausAmplifyStack extends cdk.Stack {
       sourceCodeProvider: new GitHubSourceCodeProvider({
         owner: "danielisgr&",
         repository: "cautionary-claus-website",
-        oauthToken: null
+        oauthToken: cdk.SecretValue.plainText(process.env.PAT as string)
       })
     });
   }
