@@ -1,0 +1,108 @@
+openapi: 3.0.0
+info:
+  title: Cautionary Claus API
+  version: 0.1.0
+paths:
+  /profile/{username}:
+    get:
+      summary: Gets the specified user's profile.
+      parameters:
+        - name: username
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: A JSON array of user names
+          content:
+            application/json:
+              schema: 
+                type: object
+                properties:
+                  username:
+                    type: string
+                    example: danielisgr8
+                  firstName:
+                    type: string
+                    example: Daniel
+                  lastName:
+                    type: string
+                    example: Schubert
+                  notes:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          minLength: 8
+                          maxLength: 8
+                          example: 3fa85f64
+                        message:
+                          type: string
+                          example: Plays the guitar
+        "400":
+          description: Invalid username
+        "403":
+          description: User is not logged in or is attempting to view their own profile
+  /profile/{username}/note:
+    put:
+      summary: Add a note to the user's profile.
+      parameters:
+        - name: username
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                message:
+                  type: string
+                  example: Likes to bake
+      responses:
+        "200":
+          description: Note has been successfully added
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    description: ID of the new note
+                    type: string
+                    minLength: 8
+                    maxLength: 8
+                    example: dba4b2df
+        "400":
+          description: Invalid username
+        "403":
+          description: User is not logged in or is attempting to add a note to their own profile
+    delete:
+      summary: Delete a note from the user's profile.
+      parameters:
+        - name: username
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: query
+          required: true
+          schema:
+            description: ID of the note to delete
+            type: string
+            minLength: 8
+            maxLength: 8
+            example: 19fbc4d7
+      responses:
+        "200":
+          description: Note has been successfully deleted
+        "400":
+          description: Invalid username ID
+        "403":
+          description: User is not logged in or is attempting to delete a note from their own profile
