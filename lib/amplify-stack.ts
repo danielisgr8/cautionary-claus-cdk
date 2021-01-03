@@ -6,7 +6,7 @@ export class CautionaryClausAmplifyStack extends cdk.Stack {
   constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
-    new amplify.App(this, "Cautionary Claus Website", {
+    new amplify.App(this, "CautionaryClausWebsite", {
       appName: "Cautionary Claus Website",
       sourceCodeProvider: new GitHubSourceCodeProvider({
         owner: "danielisgr&",
