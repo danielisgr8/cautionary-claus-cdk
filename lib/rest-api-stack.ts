@@ -53,7 +53,6 @@ export class CautionaryClausRestApiStack extends cdk.Stack {
   }
 
   private buildHttpApi() {
-    // TODO: cognito authorizer
     const httpApi = new apigateway.HttpApi(this, buildId("RestAPI"), {
       corsPreflight: {
         allowHeaders: ["Authorization"],
