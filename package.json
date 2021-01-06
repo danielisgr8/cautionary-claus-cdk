@@ -5,10 +5,11 @@
     "cautionary-claus-cdk": "bin/cautionary-claus-cdk.js"
   },
   "scripts": {
-    "build": "tsc",
+    "build": "npm run package-lambda && tsc",
     "watch": "tsc -w",
     "test": "jest",
-    "cdk": "cdk"
+    "cdk": "cdk",
+    "package-lambda": "zip -rjFS assets/lambda.zip node_modules/@danielisgr8/cautionary-claus-lambda/dist/"
   },
   "devDependencies": {
     "@aws-cdk/assert": "1.81.0",
@@ -30,6 +31,7 @@
     "@aws-cdk/aws-lambda": "^1.81.0",
     "@aws-cdk/aws-s3": "^1.81.0",
     "@aws-cdk/core": "1.81.0",
+    "@danielisgr8/cautionary-claus-lambda": "^0.1.0",
     "source-map-support": "^0.5.16"
   }
 }

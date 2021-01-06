@@ -31,7 +31,7 @@ export class CautionaryClausRestApiStack extends cdk.Stack {
     const defaultLambdaFn = new lambda.Function(this, buildId("DefaultFn"), {
       runtime: lambda.Runtime.NODEJS_12_X,
       handler: "index.handler",
-      code: lambda.Code.fromAsset(""), // TODO: connect to lambda package/repo/etc.,
+      code: lambda.Code.fromAsset("../assets/lambda.zip"),
       functionName: "Cautionary Claus Default Function",
       initialPolicy: [new PolicyStatement({
         resources: [this.table.tableArn],
