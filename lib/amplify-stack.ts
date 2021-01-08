@@ -3,15 +3,15 @@ import * as amplify from "@aws-cdk/aws-amplify";
 import { GitHubSourceCodeProvider } from "@aws-cdk/aws-amplify";
 import { buildId } from "./util";
 
-export class CautionaryClausAmplifyStack extends cdk.Stack {
+export class ConfidentialClausAmplifyStack extends cdk.Stack {
   constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
     new amplify.App(this, buildId("Website"), {
-      appName: "Cautionary Claus Website",
+      appName: "Confidential Claus Website",
       sourceCodeProvider: new GitHubSourceCodeProvider({
         owner: "danielisgr&",
-        repository: "cautionary-claus-website",
+        repository: "confidential-claus-website",
         oauthToken: cdk.SecretValue.plainText(process.env.PAT as string)
       })
     });

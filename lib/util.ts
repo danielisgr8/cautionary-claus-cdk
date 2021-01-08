@@ -1,1 +1,1 @@
-export const buildId = (name: string) => "CautionaryClaus" + name;
+export const buildId = (name: string) => "ConfidentialClaus" + name;
