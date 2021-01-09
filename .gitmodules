@@ -1,0 +1,3 @@
+[submodule "confidential-claus-lambda"]
+	path = confidential-claus-lambda
+	url = git@github.com:danielisgr8/confidential-claus-lambda.git

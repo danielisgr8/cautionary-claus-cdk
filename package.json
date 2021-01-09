@@ -9,7 +9,7 @@
     "watch": "tsc -w",
     "test": "jest",
     "cdk": "cdk",
-    "package-lambda": "zip -rjFS assets/lambda.zip node_modules/@danielisgr8/confidential-claus-lambda/dist/"
+    "package-lambda": "./package-lambda.sh"
   },
   "devDependencies": {
     "@aws-cdk/assert": "1.81.0",
@@ -31,7 +31,6 @@
     "@aws-cdk/aws-lambda": "^1.81.0",
     "@aws-cdk/aws-s3": "^1.81.0",
     "@aws-cdk/core": "1.81.0",
-    "@danielisgr8/confidential-claus-lambda": "^0.1.0",
     "source-map-support": "^0.5.16"
   }
 }
