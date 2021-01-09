@@ -22,7 +22,7 @@ export class ConfidentialClausRestApiStack extends cdk.Stack {
   }
 
   private buildTable() {
-    this.table = new dynamodb.Table(this, buildId("ProfileTable"), {
+    this.table = new dynamodb.Table(this, buildId("UserTable"), {
       partitionKey: { name: "username", type: dynamodb.AttributeType.STRING },
       billingMode: dynamodb.BillingMode.PAY_PER_REQUEST
     });
