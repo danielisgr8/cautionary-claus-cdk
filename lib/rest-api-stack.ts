@@ -24,7 +24,8 @@ export class ConfidentialClausRestApiStack extends cdk.Stack {
   private buildTable() {
     this.table = new dynamodb.Table(this, buildId("UserTable"), {
       partitionKey: { name: "username", type: dynamodb.AttributeType.STRING },
-      billingMode: dynamodb.BillingMode.PAY_PER_REQUEST
+      billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
+      tableName: "ConfidentialClausUserTable"
     });
   }
 
@@ -33,7 +34,6 @@ export class ConfidentialClausRestApiStack extends cdk.Stack {
       runtime: lambda.Runtime.NODEJS_12_X,
       handler: "index.handler",
       code: lambda.Code.fromAsset(path.join(__dirname, "../assets/lambda.zip")),
-      functionName: "Confidential Claus Default Function",
       initialPolicy: [new PolicyStatement({
         resources: [this.table.tableArn],
         actions: [
@@ -65,14 +65,38 @@ export class ConfidentialClausRestApiStack extends cdk.Stack {
 
     // Routes documented in config/api-definition.yaml
     httpApi.addRoutes({
-      path: "/profile/{username}",
+      path: "/user",
+      methods: [HttpMethod.POST],
+      integration: this.defaultIntegration
+    });
+
+    httpApi.addRoutes({
+      path: "/users",
       methods: [HttpMethod.GET],
+      integration: this.defaultIntegration
+    });
+
+    httpApi.addRoutes({
+      path: "/profile/{username}",
+      methods: [HttpMethod.GET, HttpMethod.PUT],
       integration: this.defaultIntegration
     });
 
     httpApi.addRoutes({
       path: "/profile/{username}/note",
       methods: [HttpMethod.PUT, HttpMethod.DELETE],
+      integration: this.defaultIntegration
+    });
+
+    httpApi.addRoutes({
+      path: "/admin/assign-all",
+      methods: [HttpMethod.PUT],
+      integration: this.defaultIntegration
+    });
+
+    httpApi.addRoutes({
+      path: "/admin/assign/{username}",
+      methods: [HttpMethod.PUT],
       integration: this.defaultIntegration
     });
 
