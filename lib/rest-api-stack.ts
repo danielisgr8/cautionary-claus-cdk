@@ -56,8 +56,8 @@ export class ConfidentialClausRestApiStack extends cdk.Stack {
   private buildHttpApi() {
     const httpApi = new apigateway.HttpApi(this, buildId("RestAPI"), {
       corsPreflight: {
-        allowHeaders: ["Authorization"],
-        allowMethods: [HttpMethod.GET, HttpMethod.PUT, HttpMethod.DELETE, HttpMethod.POST],
+        allowHeaders: ["Authorization, Content-Type"],
+        allowMethods: [HttpMethod.GET, HttpMethod.PUT, HttpMethod.DELETE, HttpMethod.POST, HttpMethod.OPTIONS],
         allowOrigins: ["*"],
         maxAge: Duration.days(10),
       }
