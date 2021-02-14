@@ -3,6 +3,60 @@ info:
   title: Confidential Claus API
   version: 0.1.0
 paths:
+  /user:
+    post:
+      summary: Create a new user. All properties are required.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  example: danielisgr8
+                firstName:
+                  type: string
+                  example: Daniel
+                lastName:
+                  type: string
+                  example: Schubert
+                address:
+                  type: object
+                  properties:
+                    line1:
+                      type: string
+                      example: 285 8th Ave N
+                    line2:
+                      type: string
+                      example: Apt 723
+                    city:
+                      type: string
+                      example: Seattle
+                    usState:
+                      type: string
+                      example: WA
+                    zip:
+                      type: string
+                      example: "98109"
+      responses:
+        "200":
+          description: User has been successfully created
+        "400":
+          description: Username is already taken or not all fields were provided
+  /users:
+    get:
+      summary: Gets a list of all users
+      responses:
+        "200":
+          description: A list of all users
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+                example: ["danielisgr8", "comcy2020"]
   /profile/{username}:
     get:
       summary: Gets the specified user's profile.
@@ -14,7 +68,7 @@ paths:
             type: string
       responses:
         "200":
-          description: A JSON array of user names
+          description: Profile data. `notes` is not provided if the user is requesting their own profile. `assignedUser` is only provided if the user is requesting their own profile.
           content:
             application/json:
               schema: 
@@ -29,6 +83,24 @@ paths:
                   lastName:
                     type: string
                     example: Schubert
+                  address:
+                    type: object
+                    properties:
+                      line1:
+                        type: string
+                        example: 285 8th Ave N
+                      line2:
+                        type: string
+                        example: Apt 723
+                      city:
+                        type: string
+                        example: Seattle
+                      usState:
+                        type: string
+                        example: WA
+                      zip:
+                        type: string
+                        example: "98109"
                   notes:
                     type: array
                     items:
@@ -42,10 +114,56 @@ paths:
                         message:
                           type: string
                           example: Plays the guitar
+                  assignedUser:
+                    type: string
+                    example: danielisgr8
         "400":
           description: Invalid username
         "403":
-          description: User is not logged in or is attempting to view their own profile
+          description: User is not logged in
+    put:
+      summary: Update a user's own profile. Only provided properties will be updated.
+      parameters:
+        - name: username
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                firstName:
+                  type: string
+                  example: Daniel
+                lastName:
+                  type: string
+                  example: Schubert
+                address:
+                  type: object
+                  properties:
+                    line1:
+                      type: string
+                      example: 285 8th Ave N
+                    line2:
+                      type: string
+                      example: Apt 723
+                    city:
+                      type: string
+                      example: Seattle
+                    usState:
+                      type: string
+                      example: WA
+                    zip:
+                      type: string
+                      example: "98109"
+      responses:
+        "200":
+          description: Profile has been successfully updated
+        "403":
+          description: User is not logged in or is attempting to update another user's profile
   /profile/{username}/note:
     put:
       summary: Add a note to the user's profile.
@@ -106,3 +224,36 @@ paths:
           description: Invalid username ID
         "403":
           description: User is not logged in or is attempting to delete a note from their own profile
+  /admin/assign-all:
+    put:
+      summary: Randomly assign each user another user to gift
+      responses:
+        "200":
+          description: Users have been successfully assigned
+        "403":
+          description: Caller is not an admin
+  /admin/assign/{username}:
+    put:
+      summary: Assign a user a specific user to gift
+      parameters:
+        - name: username
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                assignedUser:
+                  type: string
+                  example: danielisgr8
+      responses:
+        "200":
+          description: User has been successfully assigned
+        "400":
+          description: A provided username does not exist
+        "403":
+          description: Caller is not an admin

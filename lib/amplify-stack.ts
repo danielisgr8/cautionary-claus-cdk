@@ -15,6 +15,9 @@ export class ConfidentialClausAmplifyStack extends cdk.Stack {
         oauthToken: cdk.SecretValue.plainText(process.env.PAT as string)
       })
     });
-    amplifyApp.addBranch("main");
+    amplifyApp.addCustomRule(amplify.CustomRule.SINGLE_PAGE_APPLICATION_REDIRECT);
+    const main = amplifyApp.addBranch("main");
+    const domain = amplifyApp.addDomain("cc.danielschubert.dev");
+    domain.mapRoot(main);
   }
 }
